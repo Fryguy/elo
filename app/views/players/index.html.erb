@@ -1,6 +1,10 @@
 <dl class="tabs mobile">
+  <% unless Settings.ignore_singles -%>
   <dd><%= link_to 'New Game', new_game_path(:participant_pairs => 1) %></dd>
+  <% end -%>
+  <% unless Settings.ignore_doubles -%>
   <dd><%= link_to 'New Doubles Game', new_game_path(:participant_pairs => 2) %></dd>
+  <% end -%>
 </dl>
 
 <h2><%= active_league.name %></h2>
@@ -8,7 +12,7 @@
   <thead>
     <tr>
       <th>Player</th>
-      <th class="rank">Rank <span>(Single / Doubles)</span></th>
+      <th class="rank">Rank <span>(<%= rank_header %>)</span></th>
       <th class="hide-on-phones">Actions</th>
     </tr>
   </thead>
@@ -21,7 +25,7 @@
             <%= player.name  %>
           <% end %>
         </td>
-        <td class="rank singles"><%= number_with_delimiter(player.rank) %> / <%= number_with_delimiter(player.doubles_rank) %></td>
+        <td class="rank singles"><%= player_rank_text(player) %></td>
         <td class="actions hide-on-phones"><%= link_to 'Delete', player_path(player), :method => :delete, :confirm => "Delete #{player.display_name}?" %></td>
       </tr>
     <% end -%>

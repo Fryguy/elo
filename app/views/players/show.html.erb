@@ -5,7 +5,12 @@
   var player_history_data = <%= raw scores_over_time.to_json %>;
 
   $(document).ready(function() {
-    chartView = new RankChartView({collection: player_history_data, el: 'rank_graph'});
+    chartView = new RankChartView({
+      collection: player_history_data,
+      el: 'rank_graph',
+      ignoreSingles: <%= !!Settings.ignore_singles %>,
+      ignoreDoubles: <%= !!Settings.ignore_doubles %>
+    });
     score_hist = chartView.chart;
   });
 </script>
@@ -17,6 +22,7 @@
 <div id="rank_graph">
 </div>
 
+<% unless Settings.ignore_singles -%>
 <h3>Margins</h4>
 <p>This is the expected spread. If the number is negative, it
   means you should lose by this amount. If you are expected to win,
@@ -28,13 +34,18 @@
 <li><%= link_to player.display_name, player %>(<%= player.rank %>): <%= @player.margin(player) %></li>
 <% end -%>
 </ul>
+<% end -%>
 
 <% content_for(:sidebar) do %>
   <% unless @player.games.count == 0 %>
     <p>
+    <% unless Settings.ignore_singles %>
     <b>Singles: </b><%= @player.singles_wins.count %>-<%= @player.singles_losses.count %> <br/>
+    <% end -%>
+    <% unless Settings.ignore_doubles %>
     <b>Doubles: </b><%= @player.doubles_wins.count %>-<%= @player.doubles_losses.count %> <br />
-    <b>Rank: </b><%= @player.rank %>/<%= @player.doubles_rank %>
+    <% end -%>
+    <b>Rank: </b><%= player_rank_text(@player) %>
     </p>
   
   <% end %>
