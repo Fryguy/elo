@@ -107,6 +107,8 @@ GEM
       activesupport (= 3.1.10)
       bundler (~> 1.0)
       railties (= 3.1.10)
+    rails_config (0.4.1)
+      activesupport (>= 3.0)
     railties (3.1.10)
       actionpack (= 3.1.10)
       activesupport (= 3.1.10)
@@ -185,6 +187,7 @@ DEPENDENCIES
   pg
   rabl
   rails (= 3.1.10)
+  rails_config
   rspec-given
   rspec-rails
   sass-rails (~> 3.1.4)
